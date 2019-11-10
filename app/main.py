@@ -1,8 +1,9 @@
-from flask import Flask
-app = Flask(__name__)
+from resources import app
+import settings
+# Some other example server values are
+# server = 'localhost\sqlexpress' # for a named instance
+# server = 'myserver,port' # to specify an alternate port
 
-@app.route('/')
-def hello_world():
-    return 'Hello, World!'
+
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port='5000', debug=True)
+    app.run(debug=True)
