@@ -10,9 +10,24 @@ cursor = cnxn.cursor()
 # resource to query all playlists
 @app.route("/playlist/", methods=["GET"])
 def get_playlist():
-    cursor.execute("SELECT * FROM filiais")
-    columns = [column[0] for column in cursor.description]
-    playlists = []
-    for row in cursor.fetchall():
-         playlists.append(dict(zip(columns, row)))
-    return render_template("playlist/index.html", playlists=playlists)
+     cursor.execute("SELECT * FROM filiais")
+     columns = [column[0] for column in cursor.description]
+     playlists = []
+     for row in cursor.fetchall():
+          playlists.append(dict(zip(columns, row)))
+     print(playlists)
+     playlist_template = u"""
+          <li>
+               <a href="/playlist/{playlist[cod]}">
+                    {playlist[nome]}
+               </a>
+          </li>
+     """
+
+     all_playlists = [
+        playlist_template.format(playlist=playlist)
+        for playlist in playlists
+     ]
+
+     return render_template("playlist/index.html",
+     body=all_playlists)
