@@ -3,7 +3,10 @@
 <body>
     <div class="playlists-list"
         <ul>
-            {{body}}
+            {% for playlist in playlists %}
+                <li>
+                    <a href="/playlist/" + {{playlist.cod}}>playlist: {{ playlist.nome }}</a></li>
+            {% endfor %}
         </ul>
     </div>
 <script>
