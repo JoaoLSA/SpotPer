@@ -17,3 +17,9 @@ def get_playlist():
           playlists.append(dict(zip(columns, row)))
      return render_template("playlist/index.html",
      playlists=playlists)
+
+@app.route("/playlist/<int:cod>", methods=["GET"])
+def get_songs(cod = None):
+     print("++++++++++++++++")
+     print(cod)
+     return "ok"

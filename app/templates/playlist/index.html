@@ -5,12 +5,10 @@
         <ul>
             {% for playlist in playlists %}
                 <li>
-                    <a href="/playlist/" + {{playlist.cod}}>playlist: {{ playlist.nome }}</a></li>
+                    <a href="/playlist/{{playlist.cod}}">playlist: {{ playlist.nome }}</a>
+                </li>
             {% endfor %}
         </ul>
     </div>
-<script>
-    console.log()
-</script>
 </body>
 </html>
