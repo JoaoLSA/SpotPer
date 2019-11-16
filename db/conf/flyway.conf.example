@@ -39,7 +39,7 @@
 # SQLite            : jdbc:sqlite:<database>
 # Sybase ASE        : jdbc:jtds:sybase://<host>:<port>/<database>
 # Redshift*         : jdbc:redshift://<host>:<port>/<database>
-flyway.url=jdbc:sqlserver:////localhost:1433;databaseName=SpotPer1
+flyway.url=jdbc:sqlserver://localhost:1433;databaseName=SpotPer1
 flyway.user=SA
 flyway.password=
 

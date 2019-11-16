@@ -1,3 +1,4 @@
 /spot_per
 app/env.py
 *.pyc
+/db/conf/flyway.conf

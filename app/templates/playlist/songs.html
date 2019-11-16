@@ -1,0 +1,14 @@
+<html>
+<header><title>Playlists</title></header>
+<body>
+    <div class="playlists-list"
+        <ul>
+            {% for playlist in playlists %}
+                <li>
+                    <a href="/playlist/{{playlist.cod}}">playlist: {{ playlist.nome }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

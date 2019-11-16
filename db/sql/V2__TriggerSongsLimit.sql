@@ -16,6 +16,7 @@ create trigger limite_faixas3b on Faixa
 			end
 		else
 			begin
+			-- Falta saber como 'desbloquear' a insersao ou update se for ok inserir ou fazer o update
 				insert into faixa select * from inserted
 			end
 		end

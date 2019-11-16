@@ -20,6 +20,7 @@ def get_playlist():
 
 @app.route("/playlist/<int:cod>", methods=["GET"])
 def get_songs(cod = None):
-     print("++++++++++++++++")
-     print(cod)
-     return "ok"
+     # Show playlist songs to the user
+     return render_template("playlist/index.html",
+     playlists=playlists)
+@app.route("/playlist/<", methods=["POST"])
