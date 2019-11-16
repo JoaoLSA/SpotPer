@@ -1,0 +1,2 @@
+alter table compra
+drop constraint min_data_compra
