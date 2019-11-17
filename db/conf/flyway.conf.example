@@ -42,6 +42,7 @@
 flyway.url=jdbc:sqlserver://localhost:1433;databaseName=SpotPer1
 flyway.user=SA
 flyway.password=
+flyway.mixed=true # used to migrate from baseline
 
 # Fully qualified classname of the JDBC driver (autodetected by default based on flyway.url)
 # flyway.driver=
