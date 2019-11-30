@@ -5,9 +5,9 @@
 <body>
     <div class="songs-list">
             <ul>
-                    {% for album in albums %}
+                    {% for album in content.albums %}
                         <li>
-                            <a href="/playlist/{{album.cod}}/add/{{album.cod}}">
+                            <a href="/playlist/{{content.cod_playlist}}/add/{{album.cod}}">
                                 album: {{ album.descricao }}
                             </a>
                         </li>

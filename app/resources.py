@@ -55,7 +55,10 @@ def list_albums(cod_playlist =None):
           albums.append(dict(zip(columns, row)))
      print(albums)
      return render_template("playlist/songs/add/index.html",
-     albums=albums)
+     content= {
+               "cod_playlist": cod_playlist,
+               "albums": albums
+     })
 @app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["GET"])
 def songs_list(cod_playlist =None, cod_album=None):
      cursor.execute("""
@@ -63,10 +66,13 @@ def songs_list(cod_playlist =None, cod_album=None):
           F.cod,
           F.descricao
           from
-               Faixa F
+               Faixa F,
+               PlaylistFaixa PF
           where
-               F.cod_album = {}
-          """.format(cod_album)
+               F.cod_album = {} and
+               PF.cod_playlist = {} and
+               F.cod <> PF.cod_faixa
+          """.format(cod_album, cod_playlist)
      )
      columns = [column[0] for column in cursor.description]
      songs = []
@@ -77,16 +83,21 @@ def songs_list(cod_playlist =None, cod_album=None):
 @app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["POST"])
 def add_songs(cod_playlist =None, cod_album=None):
      separator = ','
-     cod_faixa = ''
      values = [
-          "values({}, {})".format(str(cod_playlist),
+          "({}, {})".format(str(cod_playlist),
           str(cod_faixa[0])
           ) for cod_faixa in request.form]
+     print("""
+          insert into
+          PlaylistFaixa
+          (cod_playlist, cod_faixa) 
+          """+ separator.join(values))
      cursor.execute("""
           insert into
           PlaylistFaixa
           (cod_playlist, cod_faixa)
+          values 
           """+ separator.join(values)
      )
      cnxn.commit()
-     return "num zei"
+     return "Musicas adicionadas!"
