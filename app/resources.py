@@ -9,6 +9,8 @@ cursor = cnxn.cursor()
 
 # resource to query all playlists
 @app.route("/", methods=["GET"])
+def home():
+     return redirect("/playlist/")
 @app.route("/playlist/", methods=["GET"])
 def get_playlist():
      cursor.execute("SELECT * FROM playlist")
@@ -21,7 +23,6 @@ def get_playlist():
                "playlists": playlists
           }
      )
-@app.route("/", methods=["POST"])
 @app.route("/playlist/", methods=["POST"])
 def add_playlist():
      playlist_name = ''
@@ -57,7 +58,7 @@ def get_songs(cod = None):
                "songs": songs
           }
      )
-@app.route("/playlist/<int:cod_playlist>/add", methods=["GET"])
+@app.route("/playlist/<int:cod_playlist>/add/", methods=["GET"])
 def list_albums(cod_playlist =None):
      cursor.execute("""
           select
@@ -80,16 +81,20 @@ def list_albums(cod_playlist =None):
 @app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["GET"])
 def songs_list(cod_playlist =None, cod_album=None):
      cursor.execute("""
-          select
+     select
           F.cod,
           F.descricao
-          from
-               Faixa F,
-               PlaylistFaixa PF
-          where
-               F.cod_album = {} and
-               PF.cod_playlist = {} and
-               F.cod <> PF.cod_faixa
+     from 
+          Faixa F
+     where
+          F.cod_album = {} and
+          F.cod not in (
+	          select
+                    PF.cod_faixa
+               from
+                    PlaylistFaixa PF
+               where PF.cod_playlist = {}
+	)
           """.format(cod_album, cod_playlist)
      )
      columns = [column[0] for column in cursor.description]
@@ -113,4 +118,4 @@ def add_songs(cod_playlist =None, cod_album=None):
           """+ separator.join(values)
      )
      cnxn.commit()
-     return "Musicas adicionadas!"
+     return redirect("/playlist/{}/add/".format(cod_playlist, cod_album), 302)
