@@ -1,0 +1,18 @@
+<html>
+<header>
+    <title>Songs</title>
+</header>
+<body>
+    <div class="songs-list">
+        hfh
+            <form method="POST">
+                    {% for song in songs %}
+                        <input type="checkbox" name={{song.cod}}>
+                            song: {{ song.descricao }}
+                        </input>
+                    {% endfor %}
+                <input type="submit">
+            </form>
+    </div>
+</body>
+</html>

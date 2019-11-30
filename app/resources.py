@@ -40,29 +40,53 @@ def get_songs(cod = None):
           }
      )
 @app.route("/playlist/<int:cod_playlist>/add", methods=["GET"])
-def add_songs(cod_playlist =None):
+def list_albums(cod_playlist =None):
      cursor.execute("""
           select
-          F.cod as 'song_id',
-          A.cod as 'album_id',
-          A.descricao as 'album_name',
-          F.descricao as 'song_name'
+          A.cod,
+          A.descricao
           from
-               Faixa F,
-               PlaylistFaixa PF,
-               Playlist P,
                Album A
+          """
+     )
+     columns = [column[0] for column in cursor.description]
+     albums = []
+     for row in cursor.fetchall():
+          albums.append(dict(zip(columns, row)))
+     print(albums)
+     return render_template("playlist/songs/add/index.html",
+     albums=albums)
+@app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["GET"])
+def songs_list(cod_playlist =None, cod_album=None):
+     cursor.execute("""
+          select
+          F.cod,
+          F.descricao
+          from
+               Faixa F
           where
-               F.cod = PF.cod_faixa and
-               F.cod_album = A.cod and
-               PF.cod_playlist <> {} and
-               P.cod = {}
-          group by A.cod, A.descricao, F.cod, F.descricao""".format(str(cod_playlist), str(cod_playlist))
+               F.cod_album = {}
+          """.format(cod_album)
      )
      columns = [column[0] for column in cursor.description]
      songs = []
      for row in cursor.fetchall():
           songs.append(dict(zip(columns, row)))
-     print(songs)
-     return render_template("playlist/songs/add/index.html",
+     return render_template("playlist/songs/add/songs.html",
      songs=songs)
+@app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["POST"])
+def add_songs(cod_playlist =None, cod_album=None):
+     separator = ','
+     cod_faixa = ''
+     values = [
+          "values({}, {})".format(str(cod_playlist),
+          str(cod_faixa[0])
+          ) for cod_faixa in request.form]
+     cursor.execute("""
+          insert into
+          PlaylistFaixa
+          (cod_playlist, cod_faixa)
+          """+ separator.join(values)
+     )
+     cnxn.commit()
+     return "num zei"
