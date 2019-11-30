@@ -1,5 +1,5 @@
 import pyodbc
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, redirect
 from env import *
 
 app = Flask(__name__)
@@ -28,10 +28,15 @@ def add_playlist():
      playlist_name = request.form.getlist('playlist_name')
      cursor.execute("""
      insert into Playlist (nome)
+     output inserted.cod
      values('{}')""".format(playlist_name[0])
      )
-     cnxn.commit()
-     return "Musicas adicionadas!"
+     playlist_cod = cursor.execute("""
+     select SCOPE_IDENTITY()"""
+     )
+     play = cursor.fetchone()
+     print("playlist cod = " + str(play))
+     return redirect("{}/add".format(int(play[0])), code=302)
 @app.route("/playlist/<int:cod>", methods=["GET"])
 def get_songs(cod = None):
      # Show playlist songs to the user
