@@ -39,20 +39,30 @@ def get_songs(cod = None):
                "songs": songs
           }
      )
-@app.route("/playlist/<int:cod>/add", methods=["GET"])
+@app.route("/playlist/<int:cod_playlist>/add", methods=["GET"])
 def add_songs(cod_playlist =None):
      cursor.execute("""
-          select F.cod, F.descricao
+          select
+          F.cod as 'song_id',
+          A.cod as 'album_id',
+          A.descricao as 'album_name',
+          F.descricao as 'song_name'
           from
-               Faixa F
+               Faixa F,
+               PlaylistFaixa PF,
+               Playlist P,
+               Album A
           where
-               f.cod = PF.cod_faixa and
+               F.cod = PF.cod_faixa and
+               F.cod_album = A.cod and
                PF.cod_playlist <> {} and
-               p.cod = {}""".format(str(cod_playlist), str(cod_playlist))
+               P.cod = {}
+          group by A.cod, A.descricao, F.cod, F.descricao""".format(str(cod_playlist), str(cod_playlist))
      )
      columns = [column[0] for column in cursor.description]
      songs = []
      for row in cursor.fetchall():
           songs.append(dict(zip(columns, row)))
+     print(songs)
      return render_template("playlist/songs/add/index.html",
      songs=songs)

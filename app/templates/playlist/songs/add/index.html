@@ -1,14 +1,34 @@
 <html>
-<header><title>Songs</title></header>
+<header>
+    <title>Songs</title>
+    <link rel="stylesheet"
+    type="text/css"
+    href="{{ url_for('static',filename='styles/addsongs.css') }}">
+</header>
 <body>
-    <div class="songs-list"
-        <ul>
+    aaa
+    <div class="songs-list">
+        <form>
             {% for song in songs %}
-                <li>
-                    <a href="/playlist/songs/{{song.cod}}">song name: {{ song.descricao }}</a>
-                </li>
+                <input type="checkbox">
+                    song name: {{ song.descricao }}
+                </input><br>
             {% endfor %}
-        </ul>
+            input
+        </form>
     </div>
+    <button type="button" class="collapsible">Open Collapsible</button>
+    <div class="content">
+      <p>Lorem ipsum...</p>
+    </div> 
+    <button type="button" class="collapsible">Open Collapsible</button>
+    <div class="content">
+      <p>Lorem ipsum...</p>
+    </div> 
+    <button type="button" class="collapsible">Open Collapsible</button>
+    <div class="content">
+      <p>Lorem ipsum...</p>
+    </div> 
+    <script src="{{ url_for('static',filename='scripts/addsongs.js') }}"></script> 
 </body>
 </html>
