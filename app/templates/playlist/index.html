@@ -1,14 +1,25 @@
 <html>
 <header><title>Playlists</title></header>
 <body>
-    <div class="playlists-list"
+    <div class="playlists-list">
         <ul>
-            {% for playlist in playlists %}
+            {% for playlist in content.playlists %}
                 <li>
                     <a href="/playlist/{{playlist.cod}}">playlist: {{ playlist.nome }}</a>
                 </li>
             {% endfor %}
         </ul>
+        <form
+            id ="add_playlist"
+            method="POST"
+        >
+            <input
+                type="text"
+                name="playlist_name"
+                placeholder="Nome da playlist"
+            ><br>
+            <input type="submit" name="add_playlist" value="Criar nova playlist">
+        </form>
     </div>
 </body>
 </html>

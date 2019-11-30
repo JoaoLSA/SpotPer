@@ -17,8 +17,21 @@ def get_playlist():
      for row in cursor.fetchall():
           playlists.append(dict(zip(columns, row)))
      return render_template("playlist/index.html",
-     playlists=playlists)
-
+     content= {
+               "playlists": playlists
+          }
+     )
+@app.route("/", methods=["POST"])
+@app.route("/playlist/", methods=["POST"])
+def add_playlist():
+     playlist_name = ''
+     playlist_name = request.form.getlist('playlist_name')
+     cursor.execute("""
+     insert into Playlist (nome)
+     values('{}')""".format(playlist_name[0])
+     )
+     cnxn.commit()
+     return "Musicas adicionadas!"
 @app.route("/playlist/<int:cod>", methods=["GET"])
 def get_songs(cod = None):
      # Show playlist songs to the user
@@ -87,16 +100,11 @@ def add_songs(cod_playlist =None, cod_album=None):
           "({}, {})".format(str(cod_playlist),
           str(cod_faixa[0])
           ) for cod_faixa in request.form]
-     print("""
-          insert into
-          PlaylistFaixa
-          (cod_playlist, cod_faixa) 
-          """+ separator.join(values))
      cursor.execute("""
           insert into
           PlaylistFaixa
           (cod_playlist, cod_faixa)
-          values 
+          values
           """+ separator.join(values)
      )
      cnxn.commit()
