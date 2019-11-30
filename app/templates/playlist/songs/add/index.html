@@ -1,0 +1,14 @@
+<html>
+<header><title>Songs</title></header>
+<body>
+    <div class="songs-list"
+        <ul>
+            {% for song in songs %}
+                <li>
+                    <a href="/playlist/songs/{{song.cod}}">song name: {{ song.descricao }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
