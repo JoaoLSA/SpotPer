@@ -5,8 +5,12 @@
         <ul>
             {% for song in content.songs %}
                 <li>
-                    <a href="/playlist/songs/{{song.cod}}">song name: {{ song.descricao }}</a>
+                    {{ song.descricao }}
                 </li>
+                {{song}}
+                <form method="POST" action="/playlist/{{content.playlist_cod}}/delete/{{song.cod}}">
+                    <input type="submit" value="Apagar essa música">
+                </form>
             {% endfor %}
         </ul>
     </div>

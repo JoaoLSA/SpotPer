@@ -38,10 +38,10 @@ def add_playlist():
      play = cursor.fetchone()
      print("playlist cod = " + str(play))
      return redirect("{}/add".format(int(play[0])), code=302)
-@app.route("/playlist/<int:cod>", methods=["GET"])
+@app.route("/playlist/<int:cod>/", methods=["GET"])
 def get_songs(cod = None):
      # Show playlist songs to the user
-     cursor.execute("""select F.descricao from
+     cursor.execute("""select F.cod, F.descricao from
      Faixa f, playlist p, PlaylistFaixa PF
      where
           f.cod = PF.cod_faixa and
@@ -119,3 +119,15 @@ def add_songs(cod_playlist =None, cod_album=None):
      )
      cnxn.commit()
      return redirect("/playlist/{}/add/".format(cod_playlist, cod_album), 302)
+
+@app.route("/playlist/<int:cod_playlist>/delete/<int:cod_song>", methods=["POST"])
+def delete_song(cod_playlist = None, cod_song = None):
+     cursor.execute("""
+          delete from
+               PlaylistFaixa
+          where
+               cod_playlist = {} and
+               cod_faixa = {}""".format(cod_playlist, cod_song)
+     )
+     cnxn.commit()
+     return redirect("/playlist/{}/".format(cod_playlist), 302)
