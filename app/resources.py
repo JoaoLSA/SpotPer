@@ -131,3 +131,10 @@ def delete_song(cod_playlist = None, cod_song = None):
      )
      cnxn.commit()
      return redirect("/playlist/{}/".format(cod_playlist), 302)
+
+@app.route("/playlist/<int:cod_playlist>/play/<int:cod_song>", methods=["POST"])
+def play_song(cod_playlist = None, cod_song = None):
+     cursor.execute("""
+         exec play_song @playlist_cod = {}, @song_cod = {}""".format(cod_playlist, cod_song)
+     )
+     return redirect("/playlist/{}/?message=musica%20executada".format(cod_playlist), 302)

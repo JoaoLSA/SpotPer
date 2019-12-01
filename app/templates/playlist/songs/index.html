@@ -1,5 +1,5 @@
 <html>
-<header><title>Songs</title></header>
+<header><title>Sla</title></header>
 <body>
     <div class="songs-list">
         <ul>
@@ -7,7 +7,9 @@
                 <li>
                     {{ song.descricao }}
                 </li>
-                {{song}}
+                <form method="POST" action="/playlist/{{content.playlist_cod}}/play/{{song.cod}}">
+                    <input type="submit" value="Tocar música">
+                </form>
                 <form method="POST" action="/playlist/{{content.playlist_cod}}/delete/{{song.cod}}">
                     <input type="submit" value="Apagar essa música">
                 </form>
