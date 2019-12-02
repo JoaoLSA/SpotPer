@@ -16,3 +16,6 @@ Pasta /queries
 ## Variáveis de ambiente
 
 Altere o arquivo /app/env.py.example fornecendo os dados necessários para conexão com o banco
+## Backup
+
+Caso o script de criação não funcione use o arquivo [SporPer1.bak](https://drive.google.com/file/d/1DUcPrAnfHg_VkUAdYPcAtkUBM6wwZg0C/view?usp=sharing " SporPer1.bak")
