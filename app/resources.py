@@ -108,6 +108,8 @@ def add_songs(cod_playlist =None, cod_album=None):
           "({}, {})".format(str(cod_playlist),
           cod_faixa
           ) for cod_faixa in request.form]
+     if(len(values) == 0):
+          return redirect("/playlist/{}/add/{}".format(cod_playlist, cod_album), 302)
      cursor.execute("""
           insert into
           PlaylistFaixa
