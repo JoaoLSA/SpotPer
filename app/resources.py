@@ -99,21 +99,15 @@ def songs_list(cod_playlist =None, cod_album=None):
      songs = []
      for row in cursor.fetchall():
           songs.append(dict(zip(columns, row)))
-     print("SONGS: ")
-     print(songs)
      return render_template("playlist/songs/add/songs.html",
      songs=songs)
 @app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["POST"])
 def add_songs(cod_playlist =None, cod_album=None):
      separator = ','
-     print("FORM")
-     print(request.form)
      values = [
           "({}, {})".format(str(cod_playlist),
           cod_faixa
           ) for cod_faixa in request.form]
-     print("VALUES")
-     print(values)
      cursor.execute("""
           insert into
           PlaylistFaixa
