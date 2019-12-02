@@ -35,17 +35,6 @@ where
 	P.cod_playlist = PF.cod_playlist and
 	F.cod_album = A.cod and
 	A.codgravadora = G.cod
-select * from playlists_com_som_do_dvorack
-select * from playlists_por_gravadora
-select *
-from
-	Faixa F,
-	FaixaCompositor FC,
-	Compositor C
-where
-	F.cod = FC.cod_faixa and
-	C.cod = FC.cod_compositor
-select * from album
 select
 	Gr.nome
 from
