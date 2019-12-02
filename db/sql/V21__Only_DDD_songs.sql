@@ -1,31 +1,37 @@
-create or alter function canBuyAlbum (@album_id smallint)
-returns BIT
+create or alter trigger only_ddd on Compra
+for insert, update
 as
-begin
-	if exists (
-		select * from
-			Faixa F,
-			FaixaCompositor FC,
-			Compositor C,
-			CompositorPeriodo CP,
-			PeriodoMusical PM
-		where
-			F.cod_album = 1 and
-			F.cod = FC.cod_faixa and
-			C.cod = FC.cod_compositor and
-			CP.cod_periodo = PM.cod and
-			CP.cod_compositor = C.cod and
-			PM.descricao = 'barroco' and
-			F.tipoGravacao <> 'DDD'
-	)
-	begin
-		return 0;
-	end
-	return 1
-end
-go
-alter table AlbumCompra
-add constraint only_DDD
-check(
-	dbo.canBuyAlbum(1) = 1
-)
+	if update(cod_album)
+		declare @cod_album smallint
+		declare cursor_compra cursor scroll for
+		select cod_album from inserted
+		open cursor_compra
+		fetch first from cursor_compra
+		into @cod_album
+		while(@@FETCH_STATUS = 0)
+		begin
+			if exists(
+			select
+				F.tipoGravacao
+			from
+				Faixa F,
+				PeriodoMusical PM,
+				CompositorPeriodo CP,
+				Compositor C
+			where
+				PM.descricao = 'barroco' and
+				F.cod_album = @cod_album and
+				PM.cod = CP.cod_periodo and
+				C.cod = CP.cod_compositor and
+				F.tipoGravacao <> 'DDD'
+			)
+			begin
+				raiserror('Album nao pode ser adiquirido, pois tem faixa com tipo de gravacao invalido', 16, 1)
+				rollback transaction
+				deallocate cursor_compra
+				return
+			end
+			fetch next from cursor_compra
+			into @cod_album
+		end
+		deallocate cursor_compra
