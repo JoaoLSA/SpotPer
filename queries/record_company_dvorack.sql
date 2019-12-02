@@ -21,3 +21,4 @@ group by
 having
 	count(distinct P.cod) >=
 	all(select count(distinct P.cod))
+

@@ -36,7 +36,6 @@ def add_playlist():
      select SCOPE_IDENTITY()"""
      )
      play = cursor.fetchone()
-     print("playlist cod = " + str(play))
      return redirect("{}/add".format(int(play[0])), code=302)
 @app.route("/playlist/<int:cod>/", methods=["GET"])
 def get_songs(cod = None):
@@ -72,7 +71,6 @@ def list_albums(cod_playlist =None):
      albums = []
      for row in cursor.fetchall():
           albums.append(dict(zip(columns, row)))
-     print(albums)
      return render_template("playlist/songs/add/index.html",
      content= {
                "cod_playlist": cod_playlist,
@@ -101,15 +99,21 @@ def songs_list(cod_playlist =None, cod_album=None):
      songs = []
      for row in cursor.fetchall():
           songs.append(dict(zip(columns, row)))
+     print("SONGS: ")
+     print(songs)
      return render_template("playlist/songs/add/songs.html",
      songs=songs)
 @app.route("/playlist/<int:cod_playlist>/add/<int:cod_album>", methods=["POST"])
 def add_songs(cod_playlist =None, cod_album=None):
      separator = ','
+     print("FORM")
+     print(request.form)
      values = [
           "({}, {})".format(str(cod_playlist),
-          str(cod_faixa[0])
+          cod_faixa
           ) for cod_faixa in request.form]
+     print("VALUES")
+     print(values)
      cursor.execute("""
           insert into
           PlaylistFaixa
@@ -137,4 +141,5 @@ def play_song(cod_playlist = None, cod_song = None):
      cursor.execute("""
          exec play_song @playlist_cod = {}, @song_cod = {}""".format(cod_playlist, cod_song)
      )
+     cnxn.commit()
      return redirect("/playlist/{}/?message=musica%20executada".format(cod_playlist), 302)

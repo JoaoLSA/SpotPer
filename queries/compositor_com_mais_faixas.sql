@@ -1,10 +1,14 @@
-select * from
-Faixa F, FaixaCompositor FC, Compositor C
-where
-	F.cod = Fc.cod_faixa and
-	C.cod = FC.cod_compositor
 select
-	C.nome
+*
+from
+Faixa F,
+Compositor C,
+FaixaCompositor FC
+where
+C.cod = FC.cod_compositor and
+F.cod = FC.cod_faixa
+select
+	*
 from
 	Compositor C,
 	FaixaCompositor FC,
