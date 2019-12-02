@@ -10,7 +10,7 @@ as
 		open cursor_compra1
 		fetch first from cursor_compra1
 		into @cod_album
-		print 'contagem'
+		print 'Numero de tuplas inseridas: '
 		declare @num_rows smallint
 		select @num_rows=count(cod_album) from inserted
 		print @num_rows

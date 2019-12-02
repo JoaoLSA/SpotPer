@@ -7,7 +7,6 @@ app = Flask(__name__)
 cnxn = pyodbc.connect('DRIVER={ODBC Driver 17 for SQL Server};SERVER='+SERVER+';DATABASE='+DATABASE+';UID='+UID+';PWD='+ PWD)
 cursor = cnxn.cursor()
 
-# resource to query all playlists
 @app.route("/", methods=["GET"])
 def home():
      return redirect("/playlist/")
@@ -27,11 +26,15 @@ def get_playlist():
 def add_playlist():
      playlist_name = ''
      playlist_name = request.form.getlist('playlist_name')
+     print(playlist_name)
+     if (len(playlist_name) == 0):
+          return redirect("/playlist")
      cursor.execute("""
      insert into Playlist (nome)
      output inserted.cod
      values('{}')""".format(playlist_name[0])
      )
+     cnxn.commit()
      playlist_cod = cursor.execute("""
      select SCOPE_IDENTITY()"""
      )
@@ -39,7 +42,6 @@ def add_playlist():
      return redirect("{}/add".format(int(play[0])), code=302)
 @app.route("/playlist/<int:cod>/", methods=["GET"])
 def get_songs(cod = None):
-     # Show playlist songs to the user
      cursor.execute("""select F.cod, F.descricao from
      Faixa f, playlist p, PlaylistFaixa PF
      where
