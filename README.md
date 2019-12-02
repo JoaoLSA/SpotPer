@@ -5,6 +5,10 @@
 - Python 3
 - As dependências necessárias estão listadas no arquivo requirements.txt e podem ser instaladas com o comando:
 - 	pip install -r requirements.txt
+
+## Executar
+
+  python3 app/main.py
 ## Scripts
 
 Os scripts para funções e triggers podem ser encontrados facilmente na pasta
