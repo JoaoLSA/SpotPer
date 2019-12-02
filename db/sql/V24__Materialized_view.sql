@@ -1,10 +1,11 @@
-create or alter view Albums_in_Playlist (cod, playlist, num_albums)
+create or alter view Albums_in_Playlist (cod_playlist, nome_playlist, cod_album, num_albums)
 with schemabinding
 as
 	select
 		P.cod,
 		P.nome,
-		count_big(A.cod) as 'Número de albums'
+		A.cod,
+		count_big(*)
 	from
 		dbo.Playlist P,
 		dbo.Album A,
@@ -16,24 +17,13 @@ as
 		F.cod_album = A.cod
 	group by
 		P.cod, P.nome, A.cod
-select * from Albums_in_Playlist
-create or alter view Albums_in_Playlist (playlist, num_albums)
-with schemabinding
+
+create or alter view Aux_Albums_in_Playlist(nome_playlist, quantidade_albuns)
 as
-	select 
-		P.nome,
-		(
-		select count(distinct A.cod) as num
-		from
-			dbo.Album A,
-			dbo.PlaylistFaixa PF,
-			dbo.Faixa F
-		where
-			A.cod = F.cod_album and
-			PF.cod_playlist = P.cod and
-			PF.cod_faixa = F.cod
-		)
+	select
+	P.nome_playlist, count(distinct P.cod_album) as 'Qtd albuns'
 	from
-		dbo.Playlist P
-create unique clustered index I_Albums_in_Playlist
-on Albums_in_Playlist(playlist)
+	Albums_in_Playlist P
+	group by
+		P.cod_playlist, P.nome_playlist
+	--virtual
