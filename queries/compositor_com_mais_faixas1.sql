@@ -1,13 +1,3 @@
-select
-*
-from
-Faixa F,
-Compositor C,
-FaixaCompositor FC
-where
-C.cod = FC.cod_compositor and
-F.cod = FC.cod_faixa
-select * from PlaylistFaixa
 create view compositor_faixa_em_playlist
 (cod_compositor, cod_faixa)
 as
@@ -25,22 +15,19 @@ as
 		F.cod = FC.cod_faixa and
 		F.cod = PF.cod_faixa and
 		P.cod = PF.cod_playlist
-		
 select
 	C.nome
 from
 	Compositor C,
-	FaixaCompositor FC,
-	Faixa F,
-	PlaylistFaixa PF,
-	Playlist P
+	compositor_faixa_em_playlist CFP
 where
-	C.cod = FC.cod_compositor and
-	F.cod = FC.cod_faixa and
-	F.cod = PF.cod_faixa and
-	P.cod = PF.cod_playlist
+	C.cod = CFP.cod_compositor
 group by
 	C.cod, C.nome
 having
-	count(distinct F.cod) >=
-	all (select count (distinct F.cod))
+	count(CFP.cod_faixa) >=
+	all (
+	select count(CP.cod_faixa)
+	from compositor_faixa_em_playlist CP
+	group by CP.cod_compositor
+	)

@@ -31,6 +31,9 @@ as
 				F.cod = FC. cod_faixa and
 				C.cod = FC.cod_compositor
 			)
+create or alter view playlists_por_gravadora
+(cod_gravadora, cod_playlist)
+
 select * from playlists_com_som_do_dvorack
 select
 	G.nome
