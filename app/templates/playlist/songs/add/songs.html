@@ -1,17 +1,25 @@
 <html>
 <header>
     <title>Songs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/common.css') }}">
 </header>
 <body>
-    <div class="songs-list">
-            <form method="POST">
-                    {% for song in songs %}
-                        <input type="checkbox" name={{song.cod}}>
-                            song: {{ song.descricao }}
-                        </input>
-                    {% endfor %}
-                <input type="submit">
-            </form>
+    <div class="header">
+            <a href="/playlist/">
+                <h3>Home</h3>
+            </a>
+    </div>
+    <div class="form-style-6">
+        <div class="songs-list">
+                <form method="POST">
+                        {% for song in songs %}
+                            <input type="checkbox" name={{song.cod}}>
+                                song: {{ song.descricao }}<br>
+                        {% endfor %}
+                    <input type="submit" value="Adicionar">
+                </form>
+        </div>
     </div>
 </body>
 </html>

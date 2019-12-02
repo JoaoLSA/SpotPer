@@ -116,7 +116,7 @@ def add_songs(cod_playlist =None, cod_album=None):
           """+ separator.join(values)
      )
      cnxn.commit()
-     return redirect("/playlist/{}/add/".format(cod_playlist, cod_album), 302)
+     return redirect("/playlist/{}/".format(cod_playlist), 302)
 
 @app.route("/playlist/<int:cod_playlist>/delete/<int:cod_song>", methods=["POST"])
 def delete_song(cod_playlist = None, cod_song = None):

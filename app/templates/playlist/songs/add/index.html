@@ -1,18 +1,26 @@
 <html>
 <header>
     <title>Albums in playlist</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/common.css') }}">
 </header>
 <body>
-    <div class="songs-list">
-            <ul>
-                    {% for album in content.albums %}
-                        <li>
-                            <a href="/playlist/{{content.cod_playlist}}/add/{{album.cod}}">
-                                album: {{ album.descricao }}
-                            </a>
-                        </li>
-                    {% endfor %}
-            </ul>
+    <div class="header">
+            <a href="/playlist/">
+                <h3>Home</h3>
+            </a>
+    </div>
+    <h1>
+        Escolha o álbum
+    </h1>
+    <div class="list">
+        <div class="songs-list">
+            {% for album in content.albums %}
+                <a href="/playlist/{{content.cod_playlist}}/add/{{album.cod}}">
+                    album: {{ album.descricao }}
+                </a><br>
+            {% endfor %}
+        </div>
     </div>
 </body>
 </html>

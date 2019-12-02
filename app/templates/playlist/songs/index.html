@@ -1,20 +1,31 @@
 <html>
-<header><title>Sla</title></header>
+<header>
+    <title>Sla</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/common.css') }}">
+</header>
 <body>
-    <div class="songs-list">
-        <ul>
-            {% for song in content.songs %}
-                <li>
-                    {{ song.descricao }}
-                </li>
-                <form method="POST" action="/playlist/{{content.playlist_cod}}/play/{{song.cod}}">
-                    <input type="submit" value="Tocar música">
-                </form>
-                <form method="POST" action="/playlist/{{content.playlist_cod}}/delete/{{song.cod}}">
-                    <input type="submit" value="Apagar essa música">
-                </form>
-            {% endfor %}
-        </ul>
+    <div class="header">
+            <a href="/playlist/">
+                <h3>Home</h3>
+            </a>
+    </div>
+    <div class="list">
+        <div class="songs-list">
+            <ul>
+                {% for song in content.songs %}
+                    <li>
+                        {{ song.descricao }}
+                    </li>
+                    <form method="POST" action="/playlist/{{content.playlist_cod}}/play/{{song.cod}}">
+                        <input type="submit" value="Tocar música">
+                    </form>
+                    <form method="POST" action="/playlist/{{content.playlist_cod}}/delete/{{song.cod}}">
+                        <input type="submit" value="Apagar essa música">
+                    </form>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <a href="/playlist/{{content.playlist_cod}}/add">
         <button>Adicionar faixas</button>

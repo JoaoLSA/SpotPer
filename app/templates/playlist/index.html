@@ -1,15 +1,23 @@
 <html>
-<header><title>Playlists</title></header>
+<header>
+    <title>Playlists</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles/common.css') }}">
+</header>
 <body>
-    <div class="playlists-list">
-        Playlists existentes
-        <ul>
-            {% for playlist in content.playlists %}
-                <li>
-                    <a href="/playlist/{{playlist.cod}}">playlist: {{ playlist.nome }}</a>
-                </li>
-            {% endfor %}
-        </ul>
+    <div class="header">
+            <a href="/playlist/">
+                <h3>Home</h3>
+            </a>
+    </div>
+    <div class="list">
+        Playlists existentes<br>
+        {% for playlist in content.playlists %}
+            <a href="/playlist/{{playlist.cod}}">playlist: {{ playlist.nome }}</a><br>
+        {% endfor %}
+    </div>
+    <div class="form-style-6">
+        <h1>Adicionar playlist</h1>
         <form
             id ="add_playlist"
             method="POST"
@@ -19,7 +27,7 @@
                 name="playlist_name"
                 placeholder="Nome da playlist"
             ><br>
-            <input type="submit" name="add_playlist" value="Criar nova playlist">
+            <input type="submit" name="add_playlist" value="Adicionar">
         </form>
     </div>
 </body>
